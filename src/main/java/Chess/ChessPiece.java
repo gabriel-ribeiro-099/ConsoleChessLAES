@@ -41,7 +41,7 @@ public abstract class ChessPiece {
     @     ensures this.moves == moves;
     @     ensures this.repeatableMoves == repeatableMoves;
     @     ensures this.name == type.name();
-    @     ensures this.charValue == type.name().trim().charAt(0);
+    @     ensures this.charValue == type.name().charAt(0);
     @ protected exceptional_behavior
     @     requires type.name() == null || type.name().isEmpty();
     @     signals (IllegalArgumentException e) type.name() == null || type.name().isEmpty();
