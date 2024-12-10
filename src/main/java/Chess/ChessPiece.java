@@ -49,15 +49,24 @@ public abstract class ChessPiece {
     @ pure
     @*/
     protected ChessPiece(PieceType type, PieceColor color, Move[] moves, boolean repeatableMoves){
-        if (type.name() == null || type.name().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null");
+        if (type == null || type.name() == null || type.name().isEmpty()) {
+            throw new IllegalArgumentException("Type or name cannot be null or empty");
+        }
+        String name = type.name();
+        if (name.isBlank()) { // Substitua por isEmpty() se preferir
+            throw new IllegalArgumentException("Name cannot be blank");
+        }
+
+        char firstChar = name.charAt(0);
+        if (firstChar < 'A' || firstChar > 'Z') {
+            throw new IllegalArgumentException("First character of name must be between 'A' and 'Z'");
         }
         this.type = type;
         this.color = color;
         this.moves = moves;
         this.repeatableMoves = repeatableMoves;
-        name = type.name();
-        charValue = type.name().trim().charAt(0);
+        this.name = name;
+        this.charValue = firstChar;
     }
 
     /*@
@@ -108,7 +117,6 @@ public abstract class ChessPiece {
 
     /*@ 
     @ protected normal_behavior
-    @   requires charValue != '\u0000'; //caractere nulo padrão
     @ ensures \result == charValue; 
     @ pure
     @*/
