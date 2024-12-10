@@ -35,7 +35,7 @@ public abstract class ChessPiece {
     @     requires color != null;
     @     requires moves != null;
     @     requires type.name() != null && !type.name().isEmpty();
-    @     requires type.name().trim().charAt(0) >= 'A' && type.name().trim().charAt(0) <= 'Z';
+    @     requires type.name().length() > 0;
     @     ensures this.type == type;
     @     ensures this.color == color;
     @     ensures this.moves == moves;
@@ -52,15 +52,17 @@ public abstract class ChessPiece {
         if (type == null || type.name() == null || type.name().isEmpty()) {
             throw new IllegalArgumentException("Type or name cannot be null or empty");
         }
+
         String name = type.name();
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
+        //@ assume name != null && name.length() > 0;
 
         char firstChar = name.charAt(0);
+        //@ assume 0 <= 0 && 0 < name.length();
+
         if (firstChar < 'A' || firstChar > 'Z') {
             throw new IllegalArgumentException("First character of name must be between 'A' and 'Z'");
         }
+
         this.type = type;
         this.color = color;
         this.moves = moves;
