@@ -53,8 +53,8 @@ public abstract class ChessPiece {
             throw new IllegalArgumentException("Type or name cannot be null or empty");
         }
         String name = type.name();
-        if (name.isBlank()) { // Substitua por isEmpty() se preferir
-            throw new IllegalArgumentException("Name cannot be blank");
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
         }
 
         char firstChar = name.charAt(0);
