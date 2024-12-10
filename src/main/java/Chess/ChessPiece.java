@@ -111,6 +111,7 @@ public abstract class ChessPiece {
     public String getName(){ return name; }
 
     /*@ 
+    @ invariant color == PieceColor.White || color == PieceColor.Black;
     @ protected normal_behavior
     @   requires color != null;
     @ pure
@@ -140,6 +141,7 @@ public abstract class ChessPiece {
     /*@ 
     @ protected normal_behavior
     @   requires type != null;
+    @ ensures \result == type;
     @ pure
     @*/
     public PieceType getPieceType() {
