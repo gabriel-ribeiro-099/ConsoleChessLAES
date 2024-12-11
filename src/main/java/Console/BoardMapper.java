@@ -6,6 +6,19 @@ class BoardMapper {
 
     }
 
+    /*@ public normal_behavior
+    @ requires val >= 1 && val <= 8
+    @ ensures (val == 1 ==> /result == 7) &&
+              (val == 2 ==> /result == 6) &&
+              (val == 3 ==> /result == 5) &&
+              (val == 4 ==> /result == 4) &&
+              (val == 5 ==> /result == 3) &&
+              (val == 6 ==> /result == 2) &&
+              (val == 7 ==> /result == 1) &&
+              (val == 8 ==> /result == 0);
+
+
+      @*/
     public int map(int val){
         switch(val){
             case 1: return 7;

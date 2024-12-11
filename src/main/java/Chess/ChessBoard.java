@@ -5,14 +5,25 @@ import Chess.Pieces.*;
 import java.util.ArrayList;
 
 public class ChessBoard {
+    //*spec_public
     private final Tile[][] board;
 
+    /*@ public normal_behavior
+      @     ensures board.length == 8 && board[0].length == 8;
+      @     ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8;
+      @                 board[i][j] != null);
+     */
     public ChessBoard(){
         board = new Tile[8][8];
         initializeBoard();
         fillBoard();
     }
 
+    /*@ public normal_behavior
+      @ ensures board.length == 8 && board[0].length == 8;
+      @     ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8;
+      @                 board[i][j] != null);
+     */
     public Tile[][] getBoardArray(){
         return board;
     }
