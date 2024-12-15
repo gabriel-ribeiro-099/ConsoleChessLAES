@@ -32,12 +32,12 @@ public class ChessBoard {
         for (int i = 0; i < 8; i++) {
             //@ loop_invariant 0 <= j && j <= 8;
             for (int j = 0; j < 8; j++) {
-                //@ assume 0 <= i && i < 8 && 0 <= j && j < 8; // Garantia para o provador
-                if ((i + j) % 2 == 0) {
-                    board[i][j] = new Tile(Tile.TileColor.Black);
-                } else {
-                    board[i][j] = new Tile(Tile.TileColor.White);
-                }
+                //@ assume 0 <= i && i < 8 && 0 <= j && j < 8; 
+                Tile tile = ((i + j) % 2 == 0)
+                ? new Tile(Tile.TileColor.Black)
+                : new Tile(Tile.TileColor.White);
+                //@ assume tile != null;
+                board[i][j] = tile;
                 //@ assume board[i][j] != null;
             }
         }
@@ -45,7 +45,6 @@ public class ChessBoard {
 
     /*@
     @ requires (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j] != null);
-    //aaa ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j] != null);
     @ ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j].getPiece() != null || board[i][j].getPiece() == null);
     @*/
     private void fillBoard() {
@@ -142,6 +141,7 @@ public class ChessBoard {
     @ ensures \result != null;
     @*/
     public Tile getTileFromTuple(Tuple tuple) {
+        //@ assume tuple != null;
         //@ assume board[tuple.Y()][tuple.X()] != null;
         return board[tuple.Y()][tuple.X()];
     }
