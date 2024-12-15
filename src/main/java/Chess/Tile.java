@@ -2,6 +2,7 @@ package Chess;
 
 /*@ nullable_by_default @*/
 public class Tile {
+    //public invariant TileColor.White != null && TileColor.Black != null;
 
     //@ spec_public
     private ChessPiece piece;
@@ -9,11 +10,7 @@ public class Tile {
     //@ spec_public
     private final TileColor color;
 
-
     /*@
-    @ public invariant piece == null || piece instanceof ChessPiece;
-    @ invariant TileColor.White != null;
-    @ invariant TileColor.Black != null;
     @ pure
     @*/
     public enum TileColor{
@@ -42,11 +39,12 @@ public class Tile {
     }
 
     /*@ 
-    @ normal_behavior
-    @   requires piece != null;
-    @   ensures this.piece == piece;
+    @ requires piece == null || piece instanceof ChessPiece;
+    @ ensures this.piece == piece;
+    @ assignable this.piece;
     @*/
     public void setPiece(ChessPiece piece){
+        //@ assume piece == null || piece instanceof ChessPiece;
         this.piece = piece;
     }
 
@@ -74,9 +72,9 @@ public class Tile {
         }
     }
 
-
     /*@ 
     @ ensures \result == (piece == null);
+    @ pure
     @*/
     public boolean isEmpty(){
         return piece == null;

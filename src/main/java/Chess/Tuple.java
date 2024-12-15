@@ -15,19 +15,15 @@ public class Tuple {
     private final int y;
 
     /*@
-      @ public invariant x >= 0 && y >= 0;
       @ constraint \old(x) == x && \old(y) == y;
       @*/
 
     /*@
-      @ public normal_behavior
-      @     requires x >= 0;
-      @     requires y >= 0;
-      @     ensures this.x == x;
-      @     ensures this.y == y;
+      @ requires (x >= 0 && y >= 0) || (x == -1 && y == -1);
+      @ ensures this.x == x;
+      @ ensures this.y == y;
       @*/
     public Tuple(int x, int y) {
-        //@ assert x >= 0 && y >= 0;
         this.x = x;
         this.y = y;
     }

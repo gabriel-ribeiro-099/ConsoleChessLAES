@@ -1,6 +1,5 @@
 package Chess;
 
-
 public abstract class ChessPiece {
     //@ spec_public
     private final PieceType type;
@@ -27,7 +26,6 @@ public abstract class ChessPiece {
     @ invariant name != null && name.length() > 0;
     @ invariant charValue >= 'A' && charValue <= 'Z';
     @*/
-
 
     /*@
     @ protected normal_behavior
@@ -83,7 +81,6 @@ public abstract class ChessPiece {
         Pawn, Rook, Knight, Bishop, Queen, King
     }
 
-
     /*@
     @ invariant PieceColor.White != null;
     @ invariant PieceColor.Black != null;
@@ -101,7 +98,6 @@ public abstract class ChessPiece {
     public Move[] getMoves() {
         return moves;
     }
-
 
     /*@ 
     @ protected normal_behavior
@@ -126,7 +122,6 @@ public abstract class ChessPiece {
     public char getCharValue() {
         return charValue;
     }
-
 
     /*@ 
     @ protected normal_behavior
