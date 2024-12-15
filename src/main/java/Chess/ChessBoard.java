@@ -7,6 +7,8 @@ public class ChessBoard {
     @ (\forall int i; 0 <= i && i < 8; board[i] != null && board[i].length == 8);
     @*/
 
+    
+
     //@ spec_public
     private final Tile[][] board;
 
@@ -98,6 +100,13 @@ public class ChessBoard {
         board[7][4].setPiece(new King(ChessPiece.PieceColor.White));
     }
 
+
+
+    /*@
+    @ requires color != null;
+    @ ensures \result != null;
+    @ pure
+    @*/
     public Tuple[] getAllPiecesLocationForColor(ChessPiece.PieceColor color) {
         //@ assume (\forall int y, x; 0 <= y && y < 8 && 0 <= x && x < 8; board[y][x] != null);
         ArrayList<Tuple> locations = new ArrayList<>();
@@ -108,6 +117,7 @@ public class ChessBoard {
                 //@ assume 0 <= x && x < 8 && 0 <= y && y < 8;
                 //@ assume board[y][x] != null;
                 if (!board[y][x].isEmpty() && board[y][x].getPiece().getColor() == color) {
+                    //@ assume x >= 0 && y >= 0;
                     Tuple t = new Tuple(x, y);
                     //@ assume t != null;
                     //@ assume locations.size() >= 0;
@@ -118,6 +128,7 @@ public class ChessBoard {
         return locations.toArray(new Tuple[0]);
     }
 
+    //@ pure
     public Tuple getKingLocation(ChessPiece.PieceColor color) {
         //@ loop_invariant 0 <= x && x <= 8;
         for (int x = 0; x < 8; x++) {
@@ -136,11 +147,13 @@ public class ChessBoard {
 
     /*@
     @ requires tuple != null;
-    @ requires 0 <= tuple.Y() && tuple.Y() < 8;
-    @ requires 0 <= tuple.X() && tuple.X() < 8;
     @ ensures \result != null;
+    @ pure
     @*/
     public Tile getTileFromTuple(Tuple tuple) {
+        if (tuple == null || tuple.X() < 0 || tuple.X() >= 8 || tuple.Y() < 0 || tuple.Y() >= 8) {
+            throw new IllegalArgumentException("Tuple is out of bounds");
+        }
         //@ assume tuple != null;
         //@ assume board[tuple.Y()][tuple.X()] != null;
         return board[tuple.Y()][tuple.X()];

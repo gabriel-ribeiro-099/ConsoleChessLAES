@@ -2,10 +2,9 @@ package Chess;
 
 /*@ nullable_by_default @*/
 public class Tile {
-    //public invariant TileColor.White != null && TileColor.Black != null;
 
     //@ spec_public
-    private ChessPiece piece;
+    private ChessPiece piece; // ou algum valor padrão válido
 
     //@ spec_public
     private final TileColor color;
@@ -48,15 +47,18 @@ public class Tile {
         this.piece = piece;
     }
 
+
     /*@ 
-    @ normal_behavior
-    @ ensures \result == this.piece;
     @ ensures \result == null || \result instanceof ChessPiece;
+    @ ensures \result == null ==> this.piece == null;
+    @ ensures \result != null ==> this.piece != null && \result == this.piece;
     @ pure
     @*/
-    public ChessPiece getPiece(){
+    public ChessPiece getPiece() {
+        //@ assert this.piece == null || this.piece instanceof ChessPiece;
         return this.piece;
     }
+
 
     /*@
     @ normal_behavior

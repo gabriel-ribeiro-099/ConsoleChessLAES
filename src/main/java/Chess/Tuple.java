@@ -19,9 +19,10 @@ public class Tuple {
       @*/
 
     /*@
-      @ requires (x >= 0 && y >= 0) || (x == -1 && y == -1);
+      @ requires (x >= 0 && y >= 0 && x < 8 && y < 8) || (x == -1 && y == -1);
       @ ensures this.x == x;
       @ ensures this.y == y;
+      @ pure
       @*/
     public Tuple(int x, int y) {
         this.x = x;
