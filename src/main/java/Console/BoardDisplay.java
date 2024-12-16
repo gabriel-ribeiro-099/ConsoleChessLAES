@@ -4,7 +4,10 @@ import Chess.ChessBoard;
 import Chess.Tile;
 
 public class BoardDisplay {
-
+    /*@ public normal_behavior
+      @ requires board != null;
+      @ ensures true; // Este método apenas exibe dados, não altera o estado do programa.
+      @*/
     public static void printBoard(ChessBoard board){
         clearConsole();
         Tile[][] b = board.getBoardArray();
@@ -27,6 +30,9 @@ public class BoardDisplay {
     /**
      * Universal console clear for both Windows and Unix machines.
      */
+     /*@ public normal_behavior
+      @ ensures true; // Não há alteração no estado do programa, apenas no console.
+      @*/
     public static void clearConsole(){
         try
         {
