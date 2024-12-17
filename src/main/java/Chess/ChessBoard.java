@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ChessBoard {
     /*@ public invariant board != null && board.length == 8 &&
     @ (\forall int i; 0 <= i && i < 8; board[i] != null && board[i].length == 8);
+    @ initially board != null;
     @*/
 
     
@@ -12,7 +13,7 @@ public class ChessBoard {
     //@ spec_public
     private final Tile[][] board;
 
-    /*@
+    /*@ 
     @ ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j] != null);
     @*/
     public ChessBoard() {
@@ -21,29 +22,37 @@ public class ChessBoard {
         fillBoard();
     }
 
-
+    //@ pure
     public Tile[][] getBoardArray() {
         return board;
     }
 
     /*@
-    @ ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j] != null);
+    @ ensures (\forall int i; 0 <= i && i < 8;
+    @            (\forall int j; 0 <= j && j < 8; board[i][j] != null));
     @*/
     private void initializeBoard() {
         //@ loop_invariant 0 <= i && i <= 8;
+        //@ loop_invariant (\forall int k; 0 <= k && k < i; (\forall int l; 0 <= l && l < 8; board[k][l] != null));
+        //@ decreases 8 - i;
+        //@ loop_writes board[*][*];
         for (int i = 0; i < 8; i++) {
             //@ loop_invariant 0 <= j && j <= 8;
+            //@ loop_invariant (\forall int l; 0 <= l && l < j; board[i][l] != null);
+            //@ decreases 8 - j;
+            //@ loop_writes board[i][*];
             for (int j = 0; j < 8; j++) {
-                //@ assume 0 <= i && i < 8 && 0 <= j && j < 8; 
                 Tile tile = ((i + j) % 2 == 0)
-                ? new Tile(Tile.TileColor.Black)
-                : new Tile(Tile.TileColor.White);
-                //@ assume tile != null;
+                    ? new Tile(Tile.TileColor.Black)
+                    : new Tile(Tile.TileColor.White);
+                //@ assert tile != null;
                 board[i][j] = tile;
-                //@ assume board[i][j] != null;
+                //@ assert board[i][j] != null;
             }
         }
     }
+
+
 
     /*@
     @ requires (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j] != null);
@@ -58,45 +67,29 @@ public class ChessBoard {
         }
 
         // Rooks
-        //@ assume board[0][0] != null;
         board[0][0].setPiece(new Rook(ChessPiece.PieceColor.Black));
-        //@ assume board[0][7] != null;
         board[0][7].setPiece(new Rook(ChessPiece.PieceColor.Black));
-        //@ assume board[7][0] != null;
         board[7][0].setPiece(new Rook(ChessPiece.PieceColor.White));
-        //@ assume board[7][7] != null;
         board[7][7].setPiece(new Rook(ChessPiece.PieceColor.White));
 
         // Knights
-        //@ assume board[0][1] != null;
         board[0][1].setPiece(new Knight(ChessPiece.PieceColor.Black));
-        //@ assume board[0][6] != null;
         board[0][6].setPiece(new Knight(ChessPiece.PieceColor.Black));
-        //@ assume board[7][1] != null;
         board[7][1].setPiece(new Knight(ChessPiece.PieceColor.White));
-        //@ assume board[7][6] != null;
         board[7][6].setPiece(new Knight(ChessPiece.PieceColor.White));
 
         // Bishops
-        //@ assume board[0][2] != null;
         board[0][2].setPiece(new Bishop(ChessPiece.PieceColor.Black));
-        //@ assume board[0][5] != null;
         board[0][5].setPiece(new Bishop(ChessPiece.PieceColor.Black));
-        //@ assume board[7][2] != null;
         board[7][2].setPiece(new Bishop(ChessPiece.PieceColor.White));
-        //@ assume board[7][5] != null;
         board[7][5].setPiece(new Bishop(ChessPiece.PieceColor.White));
 
         // Queens
-        //@ assume board[0][3] != null;
         board[0][3].setPiece(new Queen(ChessPiece.PieceColor.Black));
-        //@ assume board[7][3] != null;
         board[7][3].setPiece(new Queen(ChessPiece.PieceColor.White));
 
         // Kings
-        //@ assume board[0][4] != null;
         board[0][4].setPiece(new King(ChessPiece.PieceColor.Black));
-        //@ assume board[7][4] != null;
         board[7][4].setPiece(new King(ChessPiece.PieceColor.White));
     }
 
@@ -128,7 +121,10 @@ public class ChessBoard {
         return locations.toArray(new Tuple[0]);
     }
 
-    //@ pure
+    /*@
+    @ requires color != null;
+    @ ensures \result != null;
+    @*/
     public Tuple getKingLocation(ChessPiece.PieceColor color) {
         //@ loop_invariant 0 <= x && x <= 8;
         for (int x = 0; x < 8; x++) {
