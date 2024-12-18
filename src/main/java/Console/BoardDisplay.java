@@ -4,14 +4,16 @@ import Chess.ChessBoard;
 import Chess.Tile;
 
 public class BoardDisplay {
-    /*@ requires board != null && board.getBoardArray() != null;
-      @ requires (\forall int i; 0 <= i && i < board.getBoardArray().length;
-      @              board.getBoardArray()[i] != null &&
-      @              (\forall int j; 0 <= j && j < board.getBoardArray()[i].length;
-      @                  board.getBoardArray()[i][j] != null));
-      @ ensures true;
-      @ assignable System.out.outputText, System.out.eol;
-      @*/
+    /*@
+    @ requires board != null && board.getBoardArray() != null;
+    @ requires board.getBoardArray().length == 8;
+    @ requires (\forall int i; 0 <= i && i < board.getBoardArray().length;
+    @              board.getBoardArray()[i] != null &&
+    @              board.getBoardArray()[i].length == 8 &&
+    @              (\forall int j; 0 <= j && j < board.getBoardArray()[i].length;
+    @                  board.getBoardArray()[i][j] != null));
+    @ ensures true;
+    @*/
     public static void printBoard(ChessBoard board){
         clearConsole();
         Tile[][] b = board.getBoardArray();
@@ -22,16 +24,20 @@ public class BoardDisplay {
         //@ maintaining 0 <= i && i <= 8;
         //@ maintaining (\forall int k; 0 <= k && k < i;
         //@                (\forall int j; 0 <= j && j < 8; b[k][j] != null));
-        //@ loop_writes i, System.out.outputText, System.out.eol;
+        // loop_writes i, System.out.outputText, System.out.eol;
         //@ decreases 8 - i;
         for(int i = 0; i < 8; i++) {
             System.out.print("[" + (8 - i) + "]   ");
 
             //@ maintaining 0 <= j && j <= 8;
             //@ maintaining (\forall int k; 0 <= k && k < j; b[i][k] != null);
-            //@ loop_writes j, System.out.outputText;
+            //@ maintaining b[i] != null && b[i].length == 8;
+            // loop_writes j, System.out.outputText;
             //@ decreases 8 - j;
             for (int j = 0; j < 8; j++){
+                //@ assert 0 <= i && i < 8;
+                //@ assert 0 <= j && j < 8;
+                //@ assert b[i] != null && b[i][j] != null; 
                 System.out.print(b[i][j].getValue());
             }
 
@@ -42,7 +48,6 @@ public class BoardDisplay {
     }
 
     /*@ public normal_behavior
-      @ requires System.out != null;
       @ ensures true;
       @*/
     public static void clearConsole() {

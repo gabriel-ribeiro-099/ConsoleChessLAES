@@ -48,7 +48,7 @@ public class Tile {
     }
 
 
-    /*@ 
+    /*@
     @ ensures \result == null || \result instanceof ChessPiece;
     @ ensures \result == null ==> this.piece == null;
     @ ensures \result != null ==> this.piece != null && \result == this.piece;
