@@ -8,6 +8,11 @@ import java.util.Scanner;
 
 public class Program {
 
+    /*@
+      @ public behavior
+      @ ensures (\forall int i; 0 <= i && i < args.length; args[i] != null); // Garante que os argumentos não são nulos
+      @ signals (Exception e) true; // Permite lançar qualquer exceção
+      @*/
     public static void main(String args[]) throws Exception {
         InputHandler handler = new InputHandler();
         Scanner scanner = new Scanner(System.in);
