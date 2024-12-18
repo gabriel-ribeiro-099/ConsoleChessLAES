@@ -45,12 +45,10 @@ public class BoardDisplay {
         System.out.println("\n      [A][B][C][D][E][F][G][H]\n");
     }
 
-    /*@ public normal_behavior
-    @ ensures true;
+    /*@ ensures true;
     @ assignable \everything;
     @*/
     public static void clearConsole() {
-        /*@ nullable @*/ String errorMessage = null;
         try {
             final String os = System.getProperty("os.name");
 
@@ -61,13 +59,13 @@ public class BoardDisplay {
                 Runtime.getRuntime().exec("clear");
             }
         } catch (final Exception e) {
-            //@ assume System.out != null && System.out.eol != null && System.out.eol.length() > 0;
-            errorMessage = "Error while trying to clear console";
-        }
-
-        if (errorMessage != null && System.err != null) {
-            //@ assume System.out != null && System.out.outputText != null && \invariant_for(System.out.outputText);
-            System.out.println(errorMessage);
+            printErro();
         }
     }
+
+    //@ assignable System.out.outputText, System.out.eol;
+    private static void printErro() {
+        System.out.println("Error while trying to clear console");
+    }
+
 }
