@@ -18,9 +18,7 @@ public class InputHandler {
     }
 
     /*@ public normal_behavior
-      @ requires val != null && val.length() == 2;
-      @ ensures \result != null;
-      @ pure
+      @ ensures mapper != null;
       @*/
     public Tuple parse(String val){
         int x = mapper.map(val.charAt(0));
@@ -29,11 +27,7 @@ public class InputHandler {
         return new Tuple(x, y);
     }
 
-    /*@ public normal_behavior
-      @ requires val != null && isValid(val);
-      @ ensures \result != null;
-      @ pure
-      @*/
+
     public Tuple getFrom(String val){
         Matcher matcher = validMove.matcher(val);
         matcher.matches();
@@ -42,11 +36,7 @@ public class InputHandler {
         return parse(coords);
     }
 
-    /*@ public normal_behavior
-      @ requires val != null && isValid(val);
-      @ ensures \result != null;
-      @ pure
-      @*/
+
     public Tuple getTo(String val){
         Matcher matcher = validMove.matcher(val);
         matcher.matches();
@@ -55,10 +45,7 @@ public class InputHandler {
         return parse(coords);
     }
 
-    /*@ public normal_behavior
-      @ requires val != null;
-      @ ensures \result == (\old(validMove.matcher(val)).matches());
-      @*/
+
     public boolean isValid(String val){
         Matcher matcher = validMove.matcher(val);
 
