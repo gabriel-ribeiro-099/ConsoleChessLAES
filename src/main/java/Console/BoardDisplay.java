@@ -47,20 +47,27 @@ public class BoardDisplay {
 
     /*@ public normal_behavior
     @ ensures true;
-    @ assignable System.out.outputText, System.out.eol;
+    @ assignable \everything;
     @*/
     public static void clearConsole() {
+        /*@ nullable @*/ String errorMessage = null;
         try {
             final String os = System.getProperty("os.name");
 
             if (os.contains("Windows")) {
                 System.out.print("\033[H\033[2J");
             } else {
+                //@ assume Runtime.getRuntime() != null;
                 Runtime.getRuntime().exec("clear");
             }
         } catch (final Exception e) {
-            //@ assume System.out != null && System.out.eol.length() > 0;
-            System.out.println("Error while trying to clear console");
+            //@ assume System.out != null && System.out.eol != null && System.out.eol.length() > 0;
+            errorMessage = "Error while trying to clear console";
+        }
+
+        if (errorMessage != null && System.err != null) {
+            //@ assume System.out != null && System.out.outputText != null && \invariant_for(System.out.outputText);
+            System.out.println(errorMessage);
         }
     }
 }
