@@ -28,7 +28,8 @@ public class ChessBoard {
     /*@
     @ requires board != null;
     @ requires board.length == 8;
-    @ requires (\forall int i; 0 <= i && i < 8; board[i] != null && board[i].length == 8);
+    @ requires (\forall int i; 0 <= i && i < 8; board[i] != null 
+    @ && board[i].length == 8);
     @ ensures (\forall int i; 0 <= i && i < 8;
     @            (\forall int j; 0 <= j && j < 8; board[i][j] != null));
     @*/
