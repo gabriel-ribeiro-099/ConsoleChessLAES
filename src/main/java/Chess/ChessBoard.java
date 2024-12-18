@@ -6,9 +6,7 @@ public class ChessBoard {
     /*@ public invariant board != null && board.length == 8 &&
     @ (\forall int i; 0 <= i && i < 8; board[i] != null && board[i].length == 8);
     @ initially board != null;
-    @*/
-
-    
+    @*/    
 
     //@ spec_public
     private final Tile[][] board;
@@ -28,6 +26,9 @@ public class ChessBoard {
     }
 
     /*@
+    @ requires board != null;
+    @ requires board.length == 8;
+    @ requires (\forall int i; 0 <= i && i < 8; board[i] != null && board[i].length == 8);
     @ ensures (\forall int i; 0 <= i && i < 8;
     @            (\forall int j; 0 <= j && j < 8; board[i][j] != null));
     @*/
@@ -35,12 +36,12 @@ public class ChessBoard {
         //@ loop_invariant 0 <= i && i <= 8;
         //@ loop_invariant (\forall int k; 0 <= k && k < i; (\forall int l; 0 <= l && l < 8; board[k][l] != null));
         //@ decreases 8 - i;
-        //@ loop_writes board[*][*];
+        //@ loop_writes board[0..7][0..7];
         for (int i = 0; i < 8; i++) {
             //@ loop_invariant 0 <= j && j <= 8;
             //@ loop_invariant (\forall int l; 0 <= l && l < j; board[i][l] != null);
             //@ decreases 8 - j;
-            //@ loop_writes board[i][*];
+            //@ loop_writes board[i][0..7];
             for (int j = 0; j < 8; j++) {
                 Tile tile = ((i + j) % 2 == 0)
                     ? new Tile(Tile.TileColor.Black)
@@ -49,6 +50,7 @@ public class ChessBoard {
                 board[i][j] = tile;
                 //@ assert board[i][j] != null;
             }
+            //@ assert \forall int j; 0 <= j && j < 8; board[i][j] != null;
         }
     }
 
