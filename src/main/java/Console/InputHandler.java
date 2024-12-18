@@ -9,6 +9,8 @@ public class InputHandler {
 
     //@ spec_public
     private final static Pattern validMove = Pattern.compile("([a-hA-H][1-8])([-])([a-hA-H][1-8])", Pattern.CASE_INSENSITIVE);
+
+    //@ spec_public
     private final BoardMapper mapper;
 
     public InputHandler(){
