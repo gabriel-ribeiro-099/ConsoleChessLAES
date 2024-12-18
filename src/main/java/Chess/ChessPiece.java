@@ -52,10 +52,8 @@ public abstract class ChessPiece {
         }
 
         String name = type.name();
-        //@ assume name != null && name.length() > 0;
 
         char firstChar = name.charAt(0);
-        //@ assume 0 <= 0 && 0 < name.length();
 
         if (firstChar < 'A' || firstChar > 'Z') {
             throw new IllegalArgumentException("First character of name must be between 'A' and 'Z'");

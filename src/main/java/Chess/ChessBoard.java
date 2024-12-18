@@ -33,13 +33,13 @@ public class ChessBoard {
     @            (\forall int j; 0 <= j && j < 8; board[i][j] != null));
     @*/
     private void initializeBoard() {
-        //@ loop_invariant 0 <= i && i <= 8;
-        //@ loop_invariant (\forall int k; 0 <= k && k < i; (\forall int l; 0 <= l && l < 8; board[k][l] != null));
+        //@ maintaining 0 <= i && i <= 8;
+        //@ maintaining (\forall int k; 0 <= k && k < i; (\forall int l; 0 <= l && l < 8; board[k][l] != null));
         //@ decreases 8 - i;
         //@ loop_writes board[0..7][0..7];
         for (int i = 0; i < 8; i++) {
-            //@ loop_invariant 0 <= j && j <= 8;
-            //@ loop_invariant (\forall int l; 0 <= l && l < j; board[i][l] != null);
+            //@ maintaining 0 <= j && j <= 8;
+            //@ maintaining (\forall int l; 0 <= l && l < j; board[i][l] != null);
             //@ decreases 8 - j;
             //@ loop_writes board[i][0..7];
             for (int j = 0; j < 8; j++) {
@@ -61,9 +61,9 @@ public class ChessBoard {
     @ ensures (\forall int i, j; 0 <= i && i < 8 && 0 <= j && j < 8; board[i][j].getPiece() != null || board[i][j].getPiece() == null);
     @*/
     private void fillBoard() {
-        //@ loop_invariant 0 <= i && i <= 8;
+        //@ maintaining 0 <= i && i <= 8;
+        //@ decreases 8 - i;
         for (int i = 0; i < 8; i++) {
-            //@ assume 0 <= i && i < 8;
             board[1][i].setPiece(new Pawn(ChessPiece.PieceColor.Black));
             board[6][i].setPiece(new Pawn(ChessPiece.PieceColor.White));
         }
@@ -103,19 +103,14 @@ public class ChessBoard {
     @ pure
     @*/
     public Tuple[] getAllPiecesLocationForColor(ChessPiece.PieceColor color) {
-        //@ assume (\forall int y, x; 0 <= y && y < 8 && 0 <= x && x < 8; board[y][x] != null);
         ArrayList<Tuple> locations = new ArrayList<>();
         //@ loop_invariant 0 <= x && x <= 8;
         for (int x = 0; x < 8; x++) {
             //@ loop_invariant 0 <= y && y <= 8;
             for (int y = 0; y < 8; y++) {
-                //@ assume 0 <= x && x < 8 && 0 <= y && y < 8;
                 //@ assume board[y][x] != null;
                 if (!board[y][x].isEmpty() && board[y][x].getPiece().getColor() == color) {
-                    //@ assume x >= 0 && y >= 0;
                     Tuple t = new Tuple(x, y);
-                    //@ assume t != null;
-                    //@ assume locations.size() >= 0;
                     locations.add(t);
                 }
             }
@@ -132,10 +127,8 @@ public class ChessBoard {
         for (int x = 0; x < 8; x++) {
             //@ loop_invariant 0 <= y && y <= 8;
             for (int y = 0; y < 8; y++) {
-                //@ assume 0 <= x && x < 8 && 0 <= y && y < 8;
                 //@ assume board[y][x] != null;
                 if (!board[y][x].isEmpty() && board[y][x].getPiece() instanceof King && board[y][x].getPiece().getColor() == color) {
-                    //@ assume 0 <= x && x < 8 && 0 <= y && y < 8;
                     return new Tuple(x, y);
                 }
             }
@@ -152,7 +145,6 @@ public class ChessBoard {
         if (tuple == null || tuple.X() < 0 || tuple.X() >= 8 || tuple.Y() < 0 || tuple.Y() >= 8) {
             throw new IllegalArgumentException("Tuple is out of bounds");
         }
-        //@ assume tuple != null;
         //@ assume board[tuple.Y()][tuple.X()] != null;
         return board[tuple.Y()][tuple.X()];
     }

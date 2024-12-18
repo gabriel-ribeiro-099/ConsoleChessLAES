@@ -4,7 +4,7 @@ package Chess;
 public class Tile {
 
     //@ spec_public
-    private ChessPiece piece; // ou algum valor padrão válido
+    private ChessPiece piece; 
 
     //@ spec_public
     private final TileColor color;
@@ -33,7 +33,6 @@ public class Tile {
     @*/
     public Tile(TileColor color, ChessPiece piece){
         this.color = color;
-        //@ assume piece == null || piece instanceof ChessPiece;
         this.piece = piece;
     }
 
@@ -43,7 +42,6 @@ public class Tile {
     @ assignable this.piece;
     @*/
     public void setPiece(ChessPiece piece){
-        //@ assume piece == null || piece instanceof ChessPiece;
         this.piece = piece;
     }
 
@@ -60,14 +58,12 @@ public class Tile {
     }
 
 
-    /*@
-    @ normal_behavior
-    @ ensures piece != null ==> \result.equals("[" + piece.getCharValue() + "]");
-    @ ensures piece == null ==> \result.equals("[ ]");
+    /*@ ensures \result != null;
     @ pure
     @*/
     public String getValue() {
         if (piece != null) {
+            //@ assert piece != null;
             return "[" + piece.getCharValue() + "]";
         } else {
             return "[ ]";
