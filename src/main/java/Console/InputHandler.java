@@ -44,7 +44,7 @@ public class InputHandler {
 
 
     /*@ requires val != null && isValid(val);
-  @ ensures \result != null; // Garantimos que um Tuple válido será retornado.
+  @ ensures \result != null;
   @*/
     public Tuple getFrom(String val) {
         if (val == null) {
@@ -54,7 +54,7 @@ public class InputHandler {
         if (!isValid(val)) {
             throw new IllegalArgumentException("Invalid input string: " + val);
         }
-        return parse(val); // Chamamos parse apenas após validação
+        return parse(val);
     }
 
 
