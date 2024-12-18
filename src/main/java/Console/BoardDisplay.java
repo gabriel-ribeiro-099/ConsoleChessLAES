@@ -46,8 +46,9 @@ public class BoardDisplay {
     }
 
     /*@ public normal_behavior
-      @ ensures true;
-      @*/
+    @ ensures true;
+    @ assignable System.out.outputText, System.out.eol;
+    @*/
     public static void clearConsole() {
         try {
             final String os = System.getProperty("os.name");
@@ -58,7 +59,8 @@ public class BoardDisplay {
                 Runtime.getRuntime().exec("clear");
             }
         } catch (final Exception e) {
-            System.err.println("Error while trying to clear console");
+            //@ assume System.out != null && System.out.eol.length() > 0;
+            System.out.println("Error while trying to clear console");
         }
     }
 }
