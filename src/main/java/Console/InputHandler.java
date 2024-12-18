@@ -21,7 +21,6 @@ public class InputHandler {
         mapper = new BoardMapper();
     }
 
-    // DAQUI PARA CIMA LIMPO
 
     /*@ requires val != null && val.length() == 2;
       @ requires Character.isLetter(val.charAt(0)) && Character.isDigit(val.charAt(1));
